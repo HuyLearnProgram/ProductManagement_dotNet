@@ -1,0 +1,123 @@
+﻿@using ProductClient.ViewModels
+@model ProductViewModel
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<style>
+    /* Cải thiện bố cục sản phẩm */
+    .product-details {
+        display: flex;
+        flex-wrap: wrap; /* Để các phần tử có thể gập lại trên màn hình nhỏ */
+        justify-content: space-between;
+        margin-top: 20px;
+        gap: 20px; /* Giảm khoảng cách giữa ảnh và thông tin */
+    }
+
+    .product-image {
+        flex: 1;
+        max-width: 400px; /* Giới hạn chiều rộng của ảnh */
+        width: 100%; /* Đảm bảo ảnh không vượt quá chiều rộng của container */
+        height: auto;
+        margin-bottom: 20px; /* Thêm khoảng cách dưới ảnh trên thiết bị di động */
+        text-align: center; /* Canh giữa ảnh nếu ảnh nhỏ hơn */
+    }
+
+    .product-info {
+        flex: 2; /* Để thông tin sản phẩm chiếm phần lớn không gian */
+        max-width: 600px;
+    }
+
+        .product-info h3 {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .product-info p {
+            font-size: 1em;
+            color: #555;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+    /* Cải thiện nút "Add to Cart" */
+    .add-to-cart-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .add-to-cart-btn i {
+            margin-right: 8px; /* Khoảng cách giữa icon và text */
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+
+    /* Đảm bảo các phần tử như giá và mô tả không bị quá chật */
+    .product-info p span {
+        font-style: italic;
+        color: #888;
+    }
+
+    /* Điều chỉnh layout cho thiết bị di động */
+
+</style>
+
+
+
+<h1>@Model.ProductDetail.ProductName</h1>
+
+<div class="product-details">
+    <div class="product-image">
+        @if (!string.IsNullOrEmpty(Model.ProductDetail.ImageUrl))
+        {
+            <a href="@Url.Action("ProductDetailView", "Product", new { id = Model.ProductDetail.Id })">
+                <img src="@Model.ProductDetail.ImageUrl" alt="@Model.ProductDetail.ProductName" class="img-fluid" />
+            </a>
+        }
+        else
+        {
+            <p>No image available</p>
+        }
+    </div>
+
+    <div class="product-info">
+        <h3>Description:</h3>
+        <p>@Model.ProductDetail.Description</p>
+
+        <h3>Price:</h3>
+        <p class="card-text">@Model.ProductDetail.Price.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</p>
+
+        <h3>Quantity Available:</h3>
+        <p>@(Model.ProductDetail.Quantity.HasValue ? Model.ProductDetail.Quantity.Value.ToString() : "Out of stock")</p>
+
+        <h3>Unit:</h3>
+        <p>@Model.ProductDetail.Unit</p>
+
+        @* <h3>Category:</h3> *@
+        @* <p>@Model.ProductDetail.CategoryId</p> *@
+
+        <h3>Rating:</h3>
+        <p>@(Model.ProductDetail.Rating.HasValue ? Model.ProductDetail.Rating.Value.ToString("0.0") : "No rating yet")</p>
+
+        <h3>Sold:</h3>
+        <p>@(Model.ProductDetail.Sold.HasValue ? Model.ProductDetail.Sold.Value.ToString() : "Not sold yet")</p>
+
+        <div class="actions">
+            <button class="add-to-cart-btn">
+                <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+        </div>
+    </div>
+</div>
