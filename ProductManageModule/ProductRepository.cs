@@ -83,10 +83,14 @@ namespace ProductManagementModule
             _context.SaveChanges();
         }
 
-        public void UpdateProduct(Product product)
+        public void UpdateProduct(Product updatedProduct)
         {
-            _context.products.Update(product);
-            _context.SaveChanges();
+            var existingProduct = _context.products.Find(updatedProduct.Id);
+            if (existingProduct != null)
+            {
+                _context.Entry(existingProduct).CurrentValues.SetValues(updatedProduct);
+                _context.SaveChanges();
+            }
         }
 
         public void DeleteProduct(long id)

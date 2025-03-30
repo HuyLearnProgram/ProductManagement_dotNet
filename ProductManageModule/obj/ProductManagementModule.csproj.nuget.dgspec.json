@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tuan\\source\\repos\\ProductManageModule\\ProductManageModule\\ProductManagementModule.csproj": {}
+    "D:\\Program\\KienTrucThietKePhanMem\\Project\\Test\\ProductManagement_dotNet\\ProductManageModule\\ProductManagementModule.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tuan\\source\\repos\\ProductManageModule\\ProductManageModule\\ProductManagementModule.csproj": {
+    "D:\\Program\\KienTrucThietKePhanMem\\Project\\Test\\ProductManagement_dotNet\\ProductManageModule\\ProductManagementModule.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tuan\\source\\repos\\ProductManageModule\\ProductManageModule\\ProductManagementModule.csproj",
+        "projectUniqueName": "D:\\Program\\KienTrucThietKePhanMem\\Project\\Test\\ProductManagement_dotNet\\ProductManageModule\\ProductManagementModule.csproj",
         "projectName": "ProductManagementModule",
-        "projectPath": "C:\\Users\\Tuan\\source\\repos\\ProductManageModule\\ProductManageModule\\ProductManagementModule.csproj",
-        "packagesPath": "C:\\Users\\Tuan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tuan\\source\\repos\\ProductManageModule\\ProductManageModule\\obj\\",
+        "projectPath": "D:\\Program\\KienTrucThietKePhanMem\\Project\\Test\\ProductManagement_dotNet\\ProductManageModule\\ProductManagementModule.csproj",
+        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
+        "outputPath": "D:\\Program\\KienTrucThietKePhanMem\\Project\\Test\\ProductManagement_dotNet\\ProductManageModule\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Tuan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
