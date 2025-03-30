@@ -97,3 +97,4 @@ D:\Program\KienTrucThietKePhanMem\Project\Test\ProductManagement_dotNet\ProductC
 D:\Program\KienTrucThietKePhanMem\Project\Test\ProductManagement_dotNet\ProductClient\obj\Debug\net8.0\ProductClient.pdb
 D:\Program\KienTrucThietKePhanMem\Project\Test\ProductManagement_dotNet\ProductClient\obj\Debug\net8.0\ProductClient.genruntimeconfig.cache
 D:\Program\KienTrucThietKePhanMem\Project\Test\ProductManagement_dotNet\ProductClient\obj\Debug\net8.0\ref\ProductClient.dll
+C:\Users\Tuan\source\repos\ProductManageModule\ProductClient\obj\Debug\net8.0\ProductClient.sourcelink.json

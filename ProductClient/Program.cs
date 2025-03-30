@@ -47,7 +47,8 @@ app.MapGet("/", () => Results.Redirect("/products/view/1"));
 
 app.MapControllerRoute(
     name: "addProduct",
-    pattern: "addProduct"
+    pattern: "product/add",
+    defaults: new {controller = "Product", action = "AddProductView"}
     );
 
 app.MapControllerRoute(

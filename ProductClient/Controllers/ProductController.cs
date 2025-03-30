@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductManagementModule;
 using ProductClient.ViewModels;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 public class ProductController : Controller
 {
     private readonly ProductService _productService;
@@ -52,16 +53,56 @@ public class ProductController : Controller
         return View("ProductView", model);
     }
 
-    //public ActionResult AddProduct(long id)
-    //{
+    [HttpGet]
+    [Route("/product/add")]
+    public IActionResult AddProduct()
+    {
+        return View("AddProductView");
+    }
 
-    //}
+    [HttpPost]
+    [Route("/product/add")]
+    public async Task<IActionResult> AddProduct(ProductViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var product = new Product
+            {
+                ProductName = model.ProductDetail?.ProductName,
+                Price = model.ProductDetail?.Price ?? 0,
+                Quantity = model.ProductDetail?.Quantity ?? 0,
+                Unit = model.ProductDetail?.Unit,
+                Description = model.ProductDetail?.Description,
+                Rating = 0,
+                Sold = 0,
+            };
+
+            if (model.ImageFile != null)
+            {
+                var fileName = Path.GetFileName(model.ImageFile.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(stream);
+                }
+
+                product.ImageUrl = "/images/" + fileName;
+            }
+
+            _productService.AddProduct(product);
+            var totalProducts = _productService.GetAllProducts().Count();
+            var lastPages = (int)Math.Ceiling((double)totalProducts / PageSize);
+            return RedirectToAction("ProductView", new { page=lastPages });
+        }
+
+        return View(model);
+    }
 
     public ActionResult ProductDetailView(int id = 1)
     {
 
         var product = _productService.GetProductById(id);
-            //.SingleOrDefault(p => p.Id == id);
 
         // Truyền dữ liệu vào View
         var model = new ProductViewModel
