@@ -191,7 +191,7 @@ public class ProductController : Controller
             page = totalPages > 0 ? totalPages : 1;
         }
 
-        return RedirectToAction("ProductView", new { page });
+        return RedirectToAction("ProductView", new { page=currentPage });
     }
 
 }

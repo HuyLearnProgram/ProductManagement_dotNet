@@ -69,6 +69,11 @@
                         <h5 class="card-title">@product.ProductName</h5>
                         <p class="card-text">@product.Price.ToString("C", new System.Globalization.CultureInfo("vi-VN"))</p>
                         <a href="@Url.Action("ProductDetailView", "Product", new { id = product.Id })" class="btn btn-primary">Chi tiết</a>
+                        <div style="margin-bottom:10px"></div>
+                        <button type="button" class="delete-button" onclick="confirmDelete(@product.Id) ">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </button>
+
                     </div>
                 </div>
             </div>
@@ -105,3 +110,11 @@
         <a href="@Url.Action("ProductView", "Product", new { page = Model.CurrentPage + 1 })">Trang sau &raquo;</a>
     }
 </div>
+
+<script>
+    function confirmDelete(productId) {
+        if (confirm("Are you sure you want to delete this product?")) {
+            window.location.href = "/product/delete/" + productId;
+        }
+    }
+</script>
