@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductManagementModule", "ProductManageModule\ProductManagementModule.csproj", "{6EA33E93-421E-438E-A210-BB6F713B4CFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductManagementModule", "ProductManageModule\ProductManagementModule.csproj", "{6EA33E93-421E-438E-A210-BB6F713B4CFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductClient", "ProductClient\ProductClient.csproj", "{543EDA80-12DB-4A29-97EE-BF39C5CAA01C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductClient", "ProductClient\ProductClient.csproj", "{543EDA80-12DB-4A29-97EE-BF39C5CAA01C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,7 +20,6 @@ Global
 		{543EDA80-12DB-4A29-97EE-BF39C5CAA01C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{543EDA80-12DB-4A29-97EE-BF39C5CAA01C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{543EDA80-12DB-4A29-97EE-BF39C5CAA01C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{543EDA80-12DB-4A29-97EE-BF39C5CAA01C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
