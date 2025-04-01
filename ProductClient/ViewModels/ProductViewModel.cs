@@ -1,4 +1,4 @@
-﻿using ProductManagementModule;
+﻿using ProductManagementModule.Domain;
 namespace ProductClient.ViewModels
 {
     public class ProductViewModel

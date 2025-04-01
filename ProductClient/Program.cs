@@ -1,5 +1,7 @@
-﻿using ProductManagementModule;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductManagementModule.Repositories;
+using ProductManagementModule.Context;
+using ProductManagementModule.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

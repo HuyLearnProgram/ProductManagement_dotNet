@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ProductManagementModule;
+﻿
+using Microsoft.AspNetCore.Mvc;
 using ProductClient.ViewModels;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProductManagementModule.Domain;
+using ProductManagementModule.Services;
+using ProductManagementModule.Utils;
+
 public class ProductController : Controller
 {
     private readonly ProductService _productService;
+    private const int PageSize = 18;
 
     public ProductController(ProductService productService)
     {
@@ -16,43 +20,28 @@ public class ProductController : Controller
         var products = _productService.GetAllProducts();
         return View(products);
     }
-
     public ActionResult Details(long id)
     {
         var product = _productService.GetProductById(id);
-        if (product == null) return HttpNotFound();
+        if (product == null)
+            return NotFound();
         return View(product);
     }
-
-    private const int PageSize = 18;
     public ActionResult ProductView(int page = 1)
     {
-
-        // Lấy tổng số sản phẩm
-        
-        var productCount = _productService.GetAllProducts().Count();
-
-        // Lấy danh sách sản phẩm cho trang hiện tại
-        var products = _productService.GetAllProducts()
-            .Skip((page - 1) * PageSize)
-            .Take(PageSize)
-            .ToList();
-            ;
-
-        // Tính toán tổng số trang
-        var totalPages = (int)Math.Ceiling((double)productCount / PageSize);
-
-        // Truyền dữ liệu vào View
+        int pageSize = 18;
+        var paginatedProducts = _productService.GetPaginatedProducts(page, pageSize);
         var model = new ProductViewModel
         {
-            Products = products,
-            CurrentPage = page,
-            TotalPages = totalPages
+            Products = (List<Product>)paginatedProducts.Products,
+            CurrentPage = paginatedProducts.CurrentPage,
+            TotalPages = paginatedProducts.TotalPages
         };
 
         return View("ProductView", model);
     }
 
+    // GET: /product/add
     [HttpGet]
     [Route("/product/add")]
     public IActionResult AddProduct()
@@ -60,6 +49,7 @@ public class ProductController : Controller
         return View("AddProductView");
     }
 
+    // POST: /product/add
     [HttpPost]
     [Route("/product/add")]
     public async Task<IActionResult> AddProduct(ProductViewModel model)
@@ -79,21 +69,14 @@ public class ProductController : Controller
 
             if (model.ImageFile != null)
             {
-                var fileName = Path.GetFileName(model.ImageFile.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.ImageFile.CopyToAsync(stream);
-                }
-
-                product.ImageUrl = "/images/" + fileName;
+                product.ImageUrl = await _productService.SaveProductImageAsync(model.ImageFile);
             }
 
             _productService.AddProduct(product);
+
             var totalProducts = _productService.GetAllProducts().Count();
-            var lastPages = (int)Math.Ceiling((double)totalProducts / PageSize);
-            return RedirectToAction("ProductView", new { page=lastPages });
+            var lastPage = (int)Math.Ceiling((double)totalProducts / PageSize);
+            return RedirectToAction("ProductView", new { page = lastPage });
         }
 
         return View(model);
@@ -101,69 +84,39 @@ public class ProductController : Controller
 
     public ActionResult ProductDetailView(int id = 1)
     {
-
         var product = _productService.GetProductById(id);
-
-        // Truyền dữ liệu vào View
         var model = new ProductViewModel
         {
             ProductDetail = product,
         };
-
         return View("ProductDetailView", model);
-    }
-
-    private ActionResult HttpNotFound()
-    {
-        throw new NotImplementedException();
     }
 
     [HttpPost]
     [Route("/product/Edit")]
     public async Task<IActionResult> Edit(ProductViewModel model)
     {
-        
         if (ModelState.IsValid)
         {
-            var existingProduct = _productService.GetProductById(model.ProductDetail.Id);
-            if (existingProduct == null)
+            var productToUpdate = new Product
             {
-                return NotFound(); // Trả về lỗi nếu không tìm thấy sản phẩm
+                Id = model.ProductDetail.Id,
+                ProductName = model.ProductDetail.ProductName,
+                Price = model.ProductDetail.Price,
+                Quantity = model.ProductDetail.Quantity,
+                Unit = model.ProductDetail.Unit,
+                Description = model.ProductDetail.Description
+            };
+
+            var updateResult = await _productService.UpdateProductAsync(productToUpdate, model.ImageFile);
+            if (!updateResult)
+            {
+                return NotFound();
             }
 
-            // Cập nhật các thuộc tính mới
-            existingProduct.ProductName = model.ProductDetail.ProductName;
-            existingProduct.Price = model.ProductDetail.Price;
-            existingProduct.Quantity = model.ProductDetail.Quantity;
-            existingProduct.Unit = model.ProductDetail.Unit;
-            existingProduct.Description = model.ProductDetail.Description;
-
-            if (model.ImageFile != null && model.ImageFile.Length > 0)
-            {
-                var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images");
-                if (!Directory.Exists(uploadDir))
-                {
-                    Directory.CreateDirectory(uploadDir);
-                }
-
-                var fileExtension = Path.GetExtension(model.ImageFile.FileName);
-                var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
-                var filePath = Path.Combine(uploadDir, uniqueFileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await model.ImageFile.CopyToAsync(stream);
-                }
-
-                existingProduct.ImageUrl = "/images/" + uniqueFileName;
-            }
-
-            _productService.UpdateProduct(existingProduct);
-            //return RedirectToAction(nameof(Edit), new { id = existingProduct.Id });
             return RedirectToAction("ProductDetailView", new { id = model.ProductDetail.Id });
         }
         return RedirectToAction("ProductDetailView", new { id = model.ProductDetail.Id });
-        //return View(model);
     }
 
     [HttpGet]
@@ -177,21 +130,13 @@ public class ProductController : Controller
         }
 
         _productService.DeleteProduct(id);
-
-        // Sau khi xóa, tính toán lại số trang hợp lệ
         var totalProducts = _productService.GetAllProducts().Count();
         var totalPages = (int)Math.Ceiling((double)totalProducts / PageSize);
-
-        // Kiểm tra nếu trang hiện tại không còn sản phẩm nào, giảm số trang xuống
-        var currentPage = HttpContext.Request.Query["page"].ToString();
-        int page = string.IsNullOrEmpty(currentPage) ? 1 : int.Parse(currentPage);
-
+        var currentPageString = HttpContext.Request.Query["page"].ToString();
+        int page = string.IsNullOrEmpty(currentPageString) ? 1 : int.Parse(currentPageString);
         if (page > totalPages)
-        {
             page = totalPages > 0 ? totalPages : 1;
-        }
 
-        return RedirectToAction("ProductView", new { page=currentPage });
+        return RedirectToAction("ProductView", new { page = page });
     }
-
 }
