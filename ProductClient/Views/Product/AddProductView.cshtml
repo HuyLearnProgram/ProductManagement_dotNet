@@ -178,8 +178,68 @@
         gap: 8px;
     }
 </style>
+<style>
 
-<form method="post" action="/product/Add" enctype="multipart/form-data">
+
+    .confirm-table {
+        display: none; 
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+    }
+
+        .confirm-table table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .confirm-table td {
+            padding: 10px;
+            font-size: 18px;
+        }
+
+    .message {
+        font-weight: bold;
+        font-size: 20px;
+        padding: 10px 0;
+    }
+
+    .yes-button,
+    .no-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .yes-button {
+        background-color: #28a745;
+        color: white;
+    }
+
+        .yes-button:hover {
+            background-color: #218838;
+        }
+
+    .no-button {
+        background-color: #dc3545;
+        color: white;
+    }
+
+        .no-button:hover {
+            background-color: #c82333;
+        }
+</style>
+<form method="post" action="/product/Add" enctype="multipart/form-data" id="productForm" onsubmit="return validateForm()">
     <div class="container">
         <div class="left-section" style="width:390px">
             <h2>Product Image</h2>
@@ -229,7 +289,7 @@
             @*     <input asp-for="ProductDetail.Sold" readonly /> *@
             @* </div> *@
             <div class="button-group">
-                <button type="submit" class="save-button">
+                <button type="submit" class="save-button" onclick="showConfirmTable()">
                     <i class="fa-solid fa-floppy-disk"></i> Save
                 </button>
             </div>
@@ -238,6 +298,22 @@
     </div>
 
 </form>
+
+<div id="confirmTable" class="confirm-table">
+    <table>
+        <tr>
+            <td colspan="2" class="message">Are you sure you want to save this product?</td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="confirmSave()" class="yes-button">Yes</button>
+            </td>
+            <td>
+                <button onclick="cancelSave()" class="no-button">No</button>
+            </td>
+        </tr>
+    </table>
+</div>
 
 <script>
     function previewImageEvent(event) {
@@ -250,5 +326,37 @@
             };
             reader.readAsDataURL(input.files[0]);
         }
+    }
+
+    function validateForm() {
+       
+        var requiredFields = document.querySelectorAll('[required]');
+        var isValid = true;
+        requiredFields.forEach(function(field) {
+            if (!field.value.trim()) {
+                isValid = false;
+                alert('Please fill in all required fields.');
+            }
+        });
+
+        return isValid;
+    }
+
+    function showConfirmTable(event) {
+        event.preventDefault();
+
+        if (!validateForm()) {
+            return; 
+        }
+
+        document.getElementById('confirmTable').style.display = 'block';
+    }
+
+    function confirmSave() {
+        document.getElementById('productForm').submit();
+    }
+
+    function cancelSave() {
+        document.getElementById('confirmTable').style.display = 'none';
     }
 </script>
