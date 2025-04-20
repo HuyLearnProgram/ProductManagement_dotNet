@@ -25,19 +25,19 @@
         border: 1px solid #28a745;
         cursor: pointer;
         font-weight: bold;
-        margin-left: auto; 
+        margin-left: auto;
         transition: background 0.3s;
     }
 
-    .save-button i {
-        font-size: 18px; /* Kích thước icon */
-    }
+        .save-button i {
+            font-size: 18px;
+        }
 
-    .save-button:hover {
-        background: #fff;
-        border: 1px solid #28a745;
-        color: #28a745;
-    }
+        .save-button:hover {
+            background: #fff;
+            border: 1px solid #28a745;
+            color: #28a745;
+        }
 
     .container {
         display: flex;
@@ -79,15 +79,15 @@
         transition: background 0.3s;
     }
 
-    .custom-file-upload i {
-        font-size: 18px;
-    }
+        .custom-file-upload i {
+            font-size: 18px;
+        }
 
-    .custom-file-upload:hover {
-        background: #fff;
-        border: 1px solid #5758BB;
-        color: #5758BB;
-    }
+        .custom-file-upload:hover {
+            background: #fff;
+            border: 1px solid #5758BB;
+            color: #5758BB;
+        }
 
     input[type="file"] {
         display: none;
@@ -104,25 +104,25 @@
         margin-bottom: 15px;
     }
 
-    .form-group label {
+        .form-group label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
-    }
+        }
 
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-    }
+        }
 
-    .form-group input[readonly] {
-        cursor: default;
-        background-color: #f8f9fa; /* Màu nền nhẹ để phân biệt */
-    }
+            .form-group input[readonly] {
+                cursor: default;
+                background-color: #f8f9fa;
+            }
 
     .delete-button {
         background: #dc3545;
@@ -136,26 +136,82 @@
         transition: background 0.3s;
     }
 
-    .delete-button i {
-        font-size: 18px;
-    }
+        .delete-button i {
+            font-size: 18px;
+        }
 
-    .delete-button:hover {
-        background: #fff;
-        border: 1px solid #dc3545;
-        color: #dc3545;
-    }
+        .delete-button:hover {
+            background: #fff;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+        }
 
-    .button-group{
+    .button-group {
         display: flex;
         margin-left: auto;
         align-items: center;
         gap: 8px;
     }
+
+    /* Modal style */
+    #confirmModal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+        .modal-content h3 {
+            margin-bottom: 10px;
+        }
+
+    .modal-actions button {
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        margin: 10px 5px 0;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .modal-actions .yes-btn {
+        background: #dc3545;
+        color: white;
+    }
+
+    .modal-actions .no-btn {
+        background: #ccc;
+    }
+
+    .modal-actions .yes-btn:hover {
+        background: white;
+        color: #dc3545;
+        border: 1px solid #dc3545;
+    }
+
+    .modal-actions .no-btn:hover {
+        background: #999;
+        color: white;
+    }
 </style>
 
 <form method="post" action="/product/Edit" enctype="multipart/form-data">
-    <input type="hidden" asp-for="ProductDetail.Id" /> <!-- Để gửi Id sản phẩm -->
+    <input type="hidden" asp-for="ProductDetail.Id" />
     <div class="container">
         <div class="left-section">
             <h2>Product Image</h2>
@@ -220,10 +276,20 @@
                 </button>
             </div>
         </div>
-        
     </div>
-    
 </form>
+
+<!-- Modal HTML -->
+<div id="confirmModal">
+    <div class="modal-content">
+        <h3>Confirm Deletion</h3>
+        <p>Are you sure you want to delete this product?</p>
+        <div class="modal-actions">
+            <button class="yes-btn" onclick="proceedDelete()">Yes</button>
+            <button class="no-btn" onclick="closeModal()">No</button>
+        </div>
+    </div>
+</div>
 
 <script>
     function previewImageEvent(event) {
@@ -237,9 +303,19 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
+
+    let deleteProductId = 0;
+
     function confirmDelete(productId) {
-        if (confirm("Are you sure you want to delete this product?")) {
-            window.location.href = "/product/delete/" + productId;
-        }
+        deleteProductId = productId;
+        document.getElementById('confirmModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('confirmModal').style.display = 'none';
+    }
+
+    function proceedDelete() {
+        window.location.href = "/product/delete/" + deleteProductId;
     }
 </script>

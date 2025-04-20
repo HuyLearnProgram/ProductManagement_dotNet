@@ -12,8 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 //    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
 //    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
-string connectionString = "Server=product-management-2603-noreplymail1249-0661.c.aivencloud.com;Port=16507;Database=defaultdb;User=avnadmin;Password=AVNS_DxC0l4uCMzPnFFZuOt9;SslMode=Required";
-
+//string connectionString = "Server=localhost;Port=3303;Database=Product;User=root;Password=123456;SslMode=Required";
+//string connectionString = "Server=localhost;Port=3303;Database=Product;User=root;Password=123456;SslMode=Required";
+string connectionString = "Server=mysql-grocery-store-student-66e7.f.aivencloud.com;Port=28329;Database=product;User=avnadmin;Password=AVNS_yLsGi4zDxqP7zpfy6Eb;SslMode=Required";
 // Configure DbContext with MySQL connection string
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseMySql(
