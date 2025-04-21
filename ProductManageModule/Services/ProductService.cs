@@ -3,6 +3,10 @@ using ProductManagementModule.Domain;
 using ProductManagementModule.Repositories;
 using ProductManagementModule.Utils;
 
+using System.Data;
+using Pomelo.EntityFrameworkCore.MySql; // nếu bạn dùng MySQL thì dùng MySql.Data.MySqlClient;
+using Microsoft.Extensions.Configuration;
+
 namespace ProductManagementModule.Services
 {
     public class ProductService

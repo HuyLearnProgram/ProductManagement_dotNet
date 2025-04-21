@@ -33,6 +33,13 @@ namespace ProductManagementModule.Domain
         public double? Rating { get; set; }
 
         public int? Sold { get; set; }
+
+
+
+        // Navigation property to Cart
+        public ICollection<Cart>? Carts { get; set; }
+        public ICollection<OrderDetail>? OrderDetails { get; set; }
+
     }
 }
 

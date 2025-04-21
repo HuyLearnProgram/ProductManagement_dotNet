@@ -2,7 +2,7 @@
 using ProductManagementModule.Repositories;
 using ProductManagementModule.Context;
 using ProductManagementModule.Services;
-
+using ProductManagementModule.IRepositories;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -12,10 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 //    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"),
 //    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
-string connectionString = "Server=product-management-2603-noreplymail1249-0661.c.aivencloud.com;Port=16507;Database=defaultdb;User=avnadmin;Password=AVNS_DxC0l4uCMzPnFFZuOt9;SslMode=Required";
-
+//string connectionString = "Server=localhost;Port=3303;Database=Product;User=root;Password=123456;SslMode=Required";
+//string connectionString = "Server=localhost;Port=3303;Database=Product;User=root;Password=123456;SslMode=Required";
+string connectionString = "Server=mysql-grocery-store-student-66e7.f.aivencloud.com;Port=28329;Database=product;User=avnadmin;Password=AVNS__gRE2-mDkLsPF4yPeHb;SslMode=Required";
 // Configure DbContext with MySQL connection string
-builder.Services.AddDbContext<ProductDbContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(
         connectionString,
         ServerVersion.AutoDetect(connectionString))
@@ -25,7 +26,14 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ProductService>(); // Đảm bảo dòng này có mặt và sử dụng namespace đúng
 
+builder.Services.AddScoped<ICartRepositories, CartRepositories>();
+builder.Services.AddScoped<CartService>();
 
+builder.Services.AddScoped<IOrderRepositories, OrderRepositories>();
+builder.Services.AddScoped<OrderService>();
+
+builder.Services.AddScoped<IOrderDetailRepositories, OrderDetailRepositories>();
+builder.Services.AddScoped<OrderDetailService>();
 
 builder.Services.AddControllersWithViews();  // Đăng ký MVC controllers
 

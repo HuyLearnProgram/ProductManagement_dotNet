@@ -54,6 +54,10 @@ public class ProductController : Controller
     [Route("/product/add")]
     public async Task<IActionResult> AddProduct(ProductViewModel model)
     {
+        if (!ModelState.IsValid)
+        {
+            return View("AddProductView", model);
+        }
         if (ModelState.IsValid)
         {
             var product = new Product
@@ -79,7 +83,8 @@ public class ProductController : Controller
             return RedirectToAction("ProductView", new { page = lastPage });
         }
 
-        return View(model);
+        //return View(model);
+        return View("AddProductView", model);
     }
 
     public ActionResult ProductDetailView(int id = 1)
