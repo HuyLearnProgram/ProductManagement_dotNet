@@ -29,5 +29,14 @@ namespace ProductManagementModule.Repositories
             //var cartItem = _dbContext.cart.FirstOrDefault(c => c.UserId == userId && c.ProductId == productId);
             return _dbContext.order_detail.FirstOrDefault(od => od.OrderId == orderId);
         }
+
+        public IEnumerable<OrderDetail> GetByOrderId(long orderId)
+        {
+            return _dbContext.order_detail
+                    .Include(od => od.Order)
+                    .Include(od => od.Product)
+                    .Where(od => od.OrderId == orderId)
+                    .ToList();
+        }
     }
 }

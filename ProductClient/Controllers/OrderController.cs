@@ -115,12 +115,14 @@ public class OrderController : Controller
     [HttpGet("Order/Details/{id}")]
     public IActionResult Details(long id)
     {
-        var order = _orderService.GetOrderById(id);
-        if (order == null)
+        //var order = _orderService.GetOrderById(id);
+        //var orderDetail = _orderDetailService.GetById(id);
+        var orderDetails = _orderDetailService.GetByOrderId(id);
+        if (orderDetails == null)
         {
             return NotFound();
         }
-        return View(order);
+        return View("OrderDetail",orderDetails);
     }
 
     [HttpPost("Order/Create")]

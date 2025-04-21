@@ -2,4 +2,4 @@
 **/obj/**
 **/bin/**
 *.log
-ProductClient/Program.cs
+/ProductClient/Program.cs

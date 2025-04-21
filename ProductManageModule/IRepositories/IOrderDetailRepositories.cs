@@ -11,6 +11,7 @@ namespace ProductManagementModule.IRepositories
     {
         //IEnumerable<OrderDetail> GetAll();
         OrderDetail GetById(long orderId);
+        IEnumerable<OrderDetail> GetByOrderId(long orderId);
         void AddRange(IEnumerable<OrderDetail> orderDetails);
         //void Update(OrderDetail orderDetail);
         //void Delete(long orderId, long productId);
