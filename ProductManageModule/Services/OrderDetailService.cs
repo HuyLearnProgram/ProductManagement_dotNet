@@ -1,4 +1,5 @@
-﻿using ProductManagementModule.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using ProductManagementModule.Domain;
 using ProductManagementModule.IRepositories;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,10 @@ namespace ProductManagementModule.Services
         {
             return _orderDetailRepositories.GetById(orderId);
 
+        }
+        public IEnumerable<OrderDetail> GetByOrderId(long orderId)
+        {
+            return _orderDetailRepositories.GetByOrderId(orderId);
         }
     }
 }
