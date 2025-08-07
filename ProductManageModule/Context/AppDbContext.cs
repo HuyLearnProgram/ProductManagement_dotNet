@@ -10,8 +10,8 @@
         public DbSet<Product> products { get; set; }
         public DbSet<Cart> cart { get; set; }
         public DbSet<Order> orders { get; set; }
-        public DbSet<Role> role { get; set; }
-        public DbSet<User> user { get; set; }
+        public DbSet<Role> roles { get; set; }
+        public DbSet<User> users { get; set; }
         public DbSet<OrderDetail> order_detail { get; set; }
     }
 }

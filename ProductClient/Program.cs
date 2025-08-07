@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 //    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 
 //string connectionString = "Server=localhost;Port=3303;Database=Product;User=root;Password=123456;SslMode=Required";
-//string connectionString = "Server=localhost;Port=3303;Database=Product;User=root;Password=123456;SslMode=Required";
-string connectionString = ""; //Xóa vì sợ bị phá
+string connectionString = "Server=localhost;Port=3306;Database=product_management;User=root;Password=123456;SslMode=Required";
+//string connectionString = ""; //Xóa vì sợ bị phá
 // Configure DbContext with MySQL connection string
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(

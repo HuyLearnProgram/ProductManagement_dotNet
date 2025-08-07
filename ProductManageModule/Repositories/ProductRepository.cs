@@ -572,27 +572,8 @@ namespace ProductManagementModule.Repositories
                 Rating = Convert.ToDouble(reader["rating"]),
                 Sold = Convert.ToInt32(reader["sold"]),
                 ImageUrl = reader["image_url"]?.ToString()
-                //Id = Convert.ToInt64(reader["id"]),
-                //ProductName = reader["product_name"] == DBNull.Value ? null : reader["product_name"].ToString(),
-                //Price = Convert.ToDouble(reader["price"]), // price không nullable, đảm bảo cột price không NULL
-                //Quantity = reader["quantity"] == DBNull.Value ? null : Convert.ToInt32(reader["quantity"]),
-                //Unit = reader["unit"] == DBNull.Value ? null : reader["unit"].ToString(),
-                //Description = reader["description"] == DBNull.Value ? null : reader["description"].ToString(),
-                //Rating = reader["rating"] == DBNull.Value ? null : Convert.ToDouble(reader["rating"]),
-                //Sold = reader["sold"] == DBNull.Value ? null : Convert.ToInt32(reader["sold"]),
-                //ImageUrl = reader["image_url"] == DBNull.Value ? null : reader["image_url"].ToString()
+                
             };
-            //return new Product(
-            //    Convert.ToInt64(reader["id"]),
-            //    reader["product_name"].ToString(),
-            //    Convert.ToDouble(reader["price"]),
-            //    Convert.ToInt32(reader["quantity"]),
-            //    reader["unit"].ToString(),
-            //    reader["description"]?.ToString(),
-            //    Convert.ToDouble(reader["rating"]),
-            //    Convert.ToInt32(reader["sold"]),
-            //    reader["image_url"]?.ToString()
-            //    )
         }
 
         private void AddCommonProductParams(DbCommand cmd, Product product)
